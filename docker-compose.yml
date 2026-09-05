@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: retrace
+      POSTGRES_PASSWORD: retrace
+      POSTGRES_DB: retrace
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retrace"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://retrace:retrace@db:5432/retrace
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-me}
+      CORS_ORIGINS: http://localhost:5173,http://localhost:8080
+      ENVIRONMENT: docker
+      AUTO_SEED: "true"
+    volumes:
+      - evidence:/app/storage
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
+  evidence:

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Retrace scores how safe it is to refund a payment, and organises the evidence when something goes wrong." />
+    <title>Retrace — refund safety for UPI payments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script>
+      // Set before first paint so there's no light-mode flash while React
+      // mounts and useThemeMode's effect runs. Mirrors the logic in
+      // useThemeMode.tsx — the two must be kept in step.
+      (function () {
+        try {
+          var stored = localStorage.getItem('retrace.theme-mode');
+          var mode = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = mode;
+        } catch (e) {
+          // Storage unavailable — leave the attribute unset, light default applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

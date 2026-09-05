@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.db
+.env
+backend/storage/evidence/*
+backend/storage/reports/*
+!backend/storage/**/.gitkeep
+backend/app/ml/artifacts/
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
